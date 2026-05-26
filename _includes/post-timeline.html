@@ -1,0 +1,41 @@
+{% assign postsByYear = include.posts | group_by_exp: "post", "post.path |
+split: '/' | last | slice: 0, 4" %}
+
+<div class="blog-timeline">
+  {% for year in postsByYear %}
+  <section class="timeline-year">
+    <div class="timeline-year__heading">
+      <span class="timeline-year__dot"></span>
+      <h2 id="{{ year.name }}" class="archive__subtitle">{{ year.name }}</h2>
+    </div>
+
+    <div class="timeline-items">
+      {% for post in year.items %}
+      <article
+        class="archive__item timeline-card"
+        itemscope
+        itemtype="http://schema.org/CreativeWork"
+      >
+        <span class="timeline-card__dot"></span>
+        <h3 class="archive__item-title" itemprop="headline">
+          <a href="{{ post.url | relative_url }}" rel="bookmark"
+            >{{ post.title | escape }}</a
+          >
+        </h3>
+        {% capture rendered_date %}{% include rendered-post-date.html
+        document=post %}{% endcapture %} {% assign rendered_date = rendered_date
+        | strip %}
+        <p class="page__meta">
+          <time datetime="{{ rendered_date | date_to_xmlschema }}"
+            >{{ rendered_date | date: site.date_format }}</time
+          >
+        </p>
+        <div class="archive__item-excerpt" itemprop="description">
+          {{ post.excerpt | markdownify | strip_html | truncate: 160 }}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>

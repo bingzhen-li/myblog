@@ -1,0 +1,78 @@
+{% assign locale = include.locale | default: site.locale %} {% if
+site.footer_scripts %} {% for script in site.footer_scripts %}
+<script src="{{ script | relative_url }}"></script>
+{% endfor %} {% else %}
+<script src="{{ '/assets/js/main.min.js' | relative_url }}"></script>
+{% endif %} {% if site.search == true or page.layout == "search" %} {%- assign
+search_provider = site.search_provider | default: "lunr" -%} {%- case
+search_provider -%} {%- when "lunr" -%} {% include_cached
+search/lunr-search-scripts.html locale=locale %} {%- when "google" -%} {%
+include_cached search/google-search-scripts.html %} {%- when "algolia" -%} {%
+include_cached search/algolia-search-scripts.html locale=locale %} {%- endcase
+-%} {% endif %} {% include analytics.html %} {% include
+/comments-providers/scripts.html locale=locale %} {% if
+site.after_footer_scripts %} {% for script in site.after_footer_scripts %}
+<script src="{{ script | relative_url }}"></script>
+{% endfor %} {% endif %}
+
+<script>
+  $(document).ready(function () {
+    var $searchPanel = $(".masthead__search-panel");
+    var $searchResults = $(".page-search-results");
+    var $body = $("body");
+    var $masthead = $(".masthead");
+    var $searchToggle = $(".search__toggle");
+
+    function syncSearchResultsVisibility() {
+      var searchValue = $searchPanel.find("input").val();
+      var hasQuery = $.trim(searchValue || "").length > 0;
+
+      $searchResults.toggleClass("is--visible", hasQuery);
+      $body.toggleClass("search-results-only", hasQuery);
+    }
+
+    $searchToggle.off("click").on("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var opening = !$searchPanel.hasClass("is--visible");
+      $searchPanel.toggleClass("is--visible", opening);
+      $masthead.toggleClass("search-open", opening);
+      $searchToggle.toggleClass("is--hidden", opening);
+      $searchToggle.attr("aria-expanded", opening ? "true" : "false");
+
+      if (opening) {
+        setTimeout(function () {
+          $searchPanel.find("input").trigger("focus");
+        }, 120);
+      } else {
+        $searchToggle.trigger("focus");
+      }
+    });
+
+    $searchPanel.on("input", "input", syncSearchResultsVisibility);
+
+    syncSearchResultsVisibility();
+
+    $(document).on("keyup.site-search", function (event) {
+      if (event.keyCode === 27) {
+        $searchPanel.removeClass("is--visible");
+        $masthead.removeClass("search-open");
+        $searchToggle.removeClass("is--hidden");
+        $searchToggle.attr("aria-expanded", "false").trigger("focus");
+      }
+    });
+
+    $(document).on("click.site-search", function (event) {
+      if (
+        !$(event.target).closest(".masthead__search-panel, .search__toggle")
+          .length
+      ) {
+        $searchPanel.removeClass("is--visible");
+        $masthead.removeClass("search-open");
+        $searchToggle.removeClass("is--hidden");
+        $searchToggle.attr("aria-expanded", "false");
+      }
+    });
+  });
+</script>

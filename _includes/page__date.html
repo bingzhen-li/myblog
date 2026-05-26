@@ -1,0 +1,15 @@
+{% assign locale = include.locale | default: site.locale %} {% assign
+date_format = site.date_format | default: "%Y年%m月%d日" %} {% capture
+rendered_date %}{% include rendered-post-date.html document=page %}{% endcapture
+%} {% assign rendered_date = rendered_date | strip %} {% if rendered_date != ''
+%}
+<p class="page__date">
+  <strong
+    ><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> {{
+    site.data.ui-text[locale].date_label | default: "Updated:" }}</strong
+  >
+  <time class="dt-published" datetime="{{ rendered_date | date_to_xmlschema }}"
+    >{{ rendered_date | date: date_format }}</time
+  >
+</p>
+{% endif %}

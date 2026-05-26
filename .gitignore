@@ -1,0 +1,11 @@
+# Jekyll build artifacts
+_site/
+.sass-cache/
+.jekyll-cache/
+.bundle/
+vendor/
+
+# Local editor noise
+.vscode/
+.idea/
+.DS_Store

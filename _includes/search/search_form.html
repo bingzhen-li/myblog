@@ -1,0 +1,44 @@
+{% assign locale = include.locale | default: site.locale %} {%- assign
+search_provider = site.search_provider | default: "lunr" -%} {%- assign
+search_placeholder = "输入搜索关键词..." -%} {%- case
+search_provider -%} {%- when "lunr" -%}
+<form
+  class="search-content__form"
+  onkeydown="return event.key != 'Enter';"
+  role="search"
+>
+  <label class="sr-only" for="search">
+    {{ search_placeholder }}
+  </label>
+  <div class="search-input-wrap">
+    <i class="fas fa-search" aria-hidden="true"></i>
+    <input
+      type="search"
+      id="search"
+      class="search-input"
+      tabindex="-1"
+      placeholder="{{ search_placeholder }}"
+    />
+  </div>
+</form>
+{%- when "google" -%}
+<form
+  onsubmit="return googleCustomSearchExecute();"
+  id="cse-search-box-form-id"
+  role="search"
+  class="search-content__form"
+>
+  <label class="sr-only" for="cse-search-input-box-id">
+    {{ search_placeholder }}
+  </label>
+  <input
+    type="search"
+    id="cse-search-input-box-id"
+    class="search-input"
+    tabindex="-1"
+    placeholder="{{ search_placeholder }}"
+  />
+</form>
+{%- when "algolia" -%}
+<div class="search-searchbar"></div>
+{%- endcase -%}

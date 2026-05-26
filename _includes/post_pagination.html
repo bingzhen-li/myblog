@@ -1,0 +1,42 @@
+{% assign locale = include.locale | default: site.locale %} {% if page.previous
+or page.next %}
+<nav class="pagination" aria-label="Post pagination">
+  {% if page.previous %}
+  <a
+    href="{{ page.previous.url | relative_url }}"
+    class="pagination--pager pagination--pager-prev"
+    title="{{ page.previous.title | markdownify | strip_html | strip }}"
+  >
+    <span class="pagination--pager-label"
+      >{{ site.data.ui-text[locale].pagination_previous | default: "Previous"
+      }}</span
+    >
+    <span class="pagination--pager-title"
+      >{{ page.previous.title | markdownify | strip_html | strip }}</span
+    >
+  </a>
+  {% else %}
+  <a href="#" class="pagination--pager disabled"
+    >{{ site.data.ui-text[locale].pagination_previous | default: "Previous"
+    }}</a
+  >
+  {% endif %} {% if page.next %}
+  <a
+    href="{{ page.next.url | relative_url }}"
+    class="pagination--pager pagination--pager-next"
+    title="{{ page.next.title | markdownify | strip_html | strip }}"
+  >
+    <span class="pagination--pager-label"
+      >{{ site.data.ui-text[locale].pagination_next | default: "Next" }}</span
+    >
+    <span class="pagination--pager-title"
+      >{{ page.next.title | markdownify | strip_html | strip }}</span
+    >
+  </a>
+  {% else %}
+  <a href="#" class="pagination--pager disabled"
+    >{{ site.data.ui-text[locale].pagination_next | default: "Next" }}</a
+  >
+  {% endif %}
+</nav>
+{% endif %}

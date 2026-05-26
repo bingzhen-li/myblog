@@ -1,0 +1,5 @@
+{% assign document = include.document | default: page %} {% if
+document.collection == 'posts' and document.path %} {{ document.path | split:
+'/' | last | slice: 0, 10 }} {% elsif document.last_modified_at %} {{
+document.last_modified_at }} {% elsif document.date %} {{ document.date }} {%
+endif %}
