@@ -15,9 +15,10 @@ search: true
 search_full_content: true
 search_provider: lunr
 
-theme: minimal-mistakes-jekyll
+remote_theme: "mmistakes/minimal-mistakes"
 
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-include-cache
   - jekyll-sitemap
