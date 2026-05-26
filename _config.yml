@@ -1,8 +1,8 @@
 title: "我的博客"
 name: "我的博客"
 description: "基于 Jekyll 和 Minimal Mistakes 的个人博客。"
-url: "https://example.com"
-baseurl: ""
+url: "https://bingzhen-li.github.io"
+baseurl: "/myblog"
 repository: "bingzhen-li/myblog"
 locale: zh-CN
 timezone: Asia/Shanghai
